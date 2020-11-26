@@ -1,3 +1,49 @@
+export function jsonParse(value, name){
+  try {
+    const obj = JSON.parse(value);
+    return {valid: true, value:obj}
+  }catch (error){
+    return {valid: false, message: `${name} couldn't be JSON parsed`}
+  }
+}
+export function isArray(value,name){
+  if (Array.isArray(value)){
+    return {valid: true, value:value}
+  } else {
+    return {valid: false, message: `${name} couldn't be understood as an Array`}
+  }
+}
+
+export function forEach(validator){
+  return (value, name) =>{
+    let newValue = [];
+    let  result;
+    for (let el of value){
+      result = validator(el,"a "+ name + " element");
+      if (!result.valid){
+        return result;
+      };
+      if ( !(result.value===undefined) ){
+        newValue.push(result.value);
+      }
+    }
+    return {valid : true, value : (newValue.length > 0)? newValue : undefined}
+  }
+}
+export function minLength(minLen){
+  return (value, name)=> {
+    if (value.length && value.length >= minLen){
+      return { valid: true }
+    } else {
+      return {
+        valid : false,
+        message : `${name} should be longer than ${minLen-1}`
+      }
+    }
+  }
+}
+
+
 export function toNumber(value, name){
   const valueNumber = Number(value);
   if (Number.isNaN(valueNumber)){

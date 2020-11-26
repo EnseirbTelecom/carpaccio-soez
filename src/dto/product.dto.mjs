@@ -1,13 +1,26 @@
-import { minimum, toNumber, isInt}  from '../validation'
+import { minimum, toNumber, isInt, jsonParse, forEach, minLength, isArray}  from '../validation'
 
 
 export let ProductDTO = {
 
   prices : { 
-    validators : [toNumber, minimum(0,'strict')]
+    validators : [
+      jsonParse,
+      isArray,
+      minLength(1), 
+      forEach(toNumber), 
+      forEach(minimum(0,'strict'))
+    ]
   },
 
   quantities : {
-    validators : [toNumber, minimum(0), isInt]
+    validators : [
+      jsonParse,
+      isArray,
+      minLength(1),
+      forEach(toNumber),
+      forEach(minimum(0)),
+      forEach(isInt)
+    ]
   }
 }
