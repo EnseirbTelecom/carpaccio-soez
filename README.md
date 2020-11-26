@@ -1,2 +1,5 @@
 # SOEZ
-Choveton-Caillat | Sergent
+
+### OWNERS
+* Choveton-Caillat
+* Sergent
