@@ -1,13 +1,13 @@
-import { IsPositive, Min, IsInt } from 'class-validator'
-import {Type} from 'class-transformer'
+import { minimum, toNumber, isInt}  from '../validation'
 
-export class ProductDTO{
-  @Type(() => Number)
-  @IsPositive({each:true})
-  prices;
 
-  @Type(() => Number)
-  @IsInt()
-  @Min(1,{each:true})
-  quantities;
+export let ProductDTO = {
+
+  prices : { 
+    validators : [toNumber, minimum(0,'strict')]
+  },
+
+  quantities : {
+    validators : [toNumber, minimum(0), isInt]
+  }
 }
