@@ -1,5 +1,5 @@
 # SOEZ
 
-### OWNERS
-* Choveton-Caillat
-* Sergent
+### Contributors
+* Choveton-Caillat Julien (R2boot3r)
+* Sergent Adrien (Railore)
