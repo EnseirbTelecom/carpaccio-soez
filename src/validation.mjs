@@ -97,8 +97,11 @@ export function isInt(value, name){
     }
   }
 }
+export function validateNested(DTO){
+  return (value,name) => validate(DTO, value, name+" > ")
+}
 
-export function validate(DTO, data){
+export function validate(DTO, data, prefixToFields = ""){
   let value;
   let result;
   let newData = {};
@@ -109,13 +112,13 @@ export function validate(DTO, data){
       } else {
         return {
           valid : false,
-          message : `${field} is required`
+          message : `${prefixToFields+field} is required`
         };
       }
     }
     value = data[field];
     for (let validator of DTO[field].validators){
-      result = validator(value,field);
+      result = validator(value, prefixToFields+field);
       if (!result.valid){
         return result;
       };
