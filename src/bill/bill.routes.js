@@ -4,7 +4,7 @@ import { BillService } from './bill.service'
 
 export function implement(app){
     
-  app.post('/bill', async (req,res) => {
+  app.post('/bill', async function billRoute(req,res) {
     try {
       const validationResult = await validate(ProductDTO, req.body);
       if (!validationResult.valid) {
