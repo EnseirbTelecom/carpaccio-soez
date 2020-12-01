@@ -1,4 +1,4 @@
-import { minimum, toNumber, isInt, jsonParse, forEach, minLength, isArray}  from '../validation'
+import { minimum, toNumber, isInt, jsonParse, forEach, minLength, isArray}  from '../../common/validation'
 
 
 export let ProductDTO = {
