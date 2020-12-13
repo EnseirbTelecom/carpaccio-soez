@@ -1,3 +1,5 @@
+// function that throws a TypeError, with the message '{nameOfTheCallingFunction} : invalid argument' 
+const throwInvalidArgumentError = () => {throw new TypeError(`${arguments.callee.name} : invalid argument`) };
 
 class BillServiceClass {
   async totalPrice(bill){
@@ -11,19 +13,19 @@ class BillServiceClass {
 
   assertHaveSameLength(array1, array2){
     if (!Array.isArray(array1) || !Array.isArray(array2) || array1.length !== array2.length){
-      throw new TypeError("Invalid argument");
+      throwInvalidArgumentError();
     }
   }
 
   assertPriceValid(price){
     if (price <= 0){
-      throw new TypeError("Invalid argument");
+      throwInvalidArgumentError();
     }
   }
 
   assertQuantityValid(quantity){
     if (!Number.isInteger(quantity) || quantity<0){
-      throw new TypeError("Invalid argument");
+      throwInvalidArgumentError();
     }
   }
 

@@ -1,7 +1,9 @@
+import 'express-async-errors'
 import express from 'express'
 import bodyParser from "body-parser"
 import BillModule from './bill/bill.module'
 import DefaultModule from './default/default.module'
+import { invalidRequestErrorHandler } from './common/validation'
 
 const modules = [ BillModule, DefaultModule ]
 
@@ -29,5 +31,7 @@ for (module of modules){
     module.implement(app);
   }
 }
+
+app.use(invalidRequestErrorHandler)
 
 app.listen(3000,() => console.log("Awaiting requests."))

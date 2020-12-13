@@ -130,3 +130,27 @@ export function validate(DTO, data, prefixToFields = ""){
   }
   return {valid : true, data : newData};
 }
+
+export class ValidationError extends Error {
+  constructor(message) {
+    super(message); 
+    this.name = "ValidationError";
+  }
+}
+
+export function assertValid(DTO, data, prefixToFields = ""){
+  const validationResult = validate(DTO, data, prefixToFields);
+  if (!validationResult.valid){
+    throw new ValidationError(validationResult.message);
+  } else {
+    return validationResult.data;
+  }
+}
+
+export function invalidRequestErrorHandler(err, req, res, next){
+  if (err instanceof ValidationError){
+    res.status(400).json({error: err.message});
+  } else {
+    next(err);
+  }
+}
