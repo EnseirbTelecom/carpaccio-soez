@@ -1,6 +1,12 @@
+import 'express-async-errors'
 import express from 'express'
 import bodyParser from "body-parser"
-import {implement} from './routes'
+import BillModule from './bill/bill.module'
+import DefaultModule from './default/default.module'
+import { invalidRequestErrorHandler } from './common/validation'
+
+const modules = [ BillModule, DefaultModule ]
+
 
 const app = express()
 
@@ -19,10 +25,13 @@ app.use((req, res, next) => {
     next();
 });
 
+let module;
+for (module of modules){
+  if (module.implement !== undefined){ 
+    module.implement(app);
+  }
+}
 
-// On ouvre une connexion à notre base de données
+app.use(invalidRequestErrorHandler)
 
-  implement(app);
-
-
-  app.listen(3000,() => console.log("Awaiting requests."))
+app.listen(3000,() => console.log("Awaiting requests."))

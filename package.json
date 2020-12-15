@@ -5,16 +5,15 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node  -r esm src/server.mjs"
+    "start": "nodemon  -r esm src/server.js"
   },
   "author": "yuno",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "class-transformer": "^0.3.1",
-    "class-validator": "^0.12.2",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "nodemon": "^2.0.4"
   }
 }
