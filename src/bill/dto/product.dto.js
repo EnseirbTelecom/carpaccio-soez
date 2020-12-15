@@ -9,7 +9,7 @@ export let ProductDTO = {
       isArray,
       minLength(1), 
       forEach(toNumber), 
-      forEach(minimum(0,'strict'))
+      forEach(minimum(0))
     ]
   },
 
@@ -19,7 +19,7 @@ export let ProductDTO = {
       isArray,
       minLength(1),
       forEach(toNumber),
-      forEach(minimum(0)),
+      forEach(minimum(0,'strict')),
       forEach(isInt)
     ]
   }
