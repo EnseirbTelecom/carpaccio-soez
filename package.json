@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
+    "postinstall": "cp -r ./hooks/ ./.git/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon  -r esm src/server.js"
   },
@@ -14,10 +15,10 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
-    "jest": "^26.6.3",
     "nodemon": "^2.0.4"
   },
   "devDependencies": {
+    "jest": "^26.6.3",
     "standard": "^16.0.3"
   }
 }
