@@ -1,8 +1,10 @@
-const esmImport = require('esm')(module);
+
+
+const esmImport = require('esm')(module,{mode:"all"});
 
 const validationFunc = esmImport('../src/common/validation')
+//const { ValidationError } = esmImport('../src/common/validation');
 
-let fruits = [ 0 , 1]
 
 
 // Test of Validator isArray
@@ -20,22 +22,19 @@ test('Test if input an Array', () => {
 test('Test if output is a number ',() => {
     expect(validationFunc.toNumber('2').valid).toBe(true)
     expect(validationFunc.toNumber('2').value).toBe(2)
-    expect(validationFunc.toNumber('2').value instanceof Number ).toBe(true)
+    expect(typeof(validationFunc.toNumber('2').value)).toBe('number')
 })
 
 test('Test if output is a number ',() => {
     expect(validationFunc.toNumber('foo').valid).toBe(false)
-    expect(validationFunc.toNumber('foo').value instanceof Number ).toBe(false)
-})
-
-test('Test if output is a number ',() => {
-    expect(validationFunc.toNumber(' ').valid).toBe(true)
-    expect(validationFunc.toNumber(' ').value instanceof Number ).toBe(false)
+    expect(typeof(validationFunc.toNumber('foo').value)).toBe('undefined')
 })
 
   test('Test if output is a number ',() => {
     expect(validationFunc.toNumber('100').valid).toBe(true)
-    expect(validationFunc.toNumber('100').value instanceof Number ).toBe(false)
+    expect(validationFunc.toNumber('100').value).toBe(100)
+    expect(typeof(validationFunc.toNumber('100').value)).toBe('number')
+
 })
 
 // Test of validator isInt
@@ -96,3 +95,55 @@ test('Test if minimun retruns a validator',() => {
 })
 
 
+// Test of minLength, returns a validator function 
+
+test('Test if minLength retruns a validator',() => {
+    expect(validationFunc.minLength(1)('   ').valid).toBe(true)
+})
+
+test('Test if minLength retruns a validator',() => {
+    expect(validationFunc.minLength(1)('').valid).toBe(false)
+})
+
+test('Test if minLength retruns a validator',() => {
+    expect(validationFunc.minLength(2)([1]).valid).toBe(false)
+})
+
+test('Test if minLength retruns a validator',() => {
+    expect(validationFunc.minLength(2)([1,2]).valid).toBe(true)
+})
+
+// Test of transformer jsonParse
+
+test('Test if jsonParse retruns javascript obj',() => {
+    expect(validationFunc.jsonParse('{ "name":"John", "age":30, "city":"New York"}').valid).toBe(true)
+    expect(validationFunc.jsonParse('{ "name":"John", "age":30, "city":"New York"}').value)
+    .toStrictEqual({ "name":"John", "age":30, "city":"New York"})
+})
+
+test('Test if jsonParse detects uncorrect json',() => {
+    expect(validationFunc.jsonParse('"name":"John", "age":30, "city":"New York"}').valid).toBe(false)
+})
+
+
+
+// Test of ChainValidator
+
+// Test of validateDTO
+
+// Test of validateDTOaux
+
+// Test of assertValid
+
+/*  test('Test of assertValid',() => {
+    expect( ()=>{
+        validationFunc.assertValid({valid:false,message:"Erreur"})
+    })
+    .toThrowError("Erreur")
+    })  */
+
+// Test of invalidRequestErrorHandle
+/* 
+test('Test of invalidRequestErrorHandle',() => {
+    expect(validationFunc.minLength(2)([1,2]).valid).toBe(true)
+}) */
