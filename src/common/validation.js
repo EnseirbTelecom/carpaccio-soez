@@ -119,7 +119,7 @@ export function toNumber (value, name = 'value') {
 /**
  * function that builds a validator that will check that value is higher than minValue
  * @param {number} minValue the minimum value that the returned validator will accept
- * @param {number} mode tells if the comparison will be strict or not, 'equal' -> not strict, any other value -> 'strict'
+ * @param {number} mode tells if the comparison will be strict or not, by default 'strict' , any other value or 'equal' -> 'equal'
  * @returns {function} the validator function @see validatorExample
  */
 export function minimum (minValue, mode = 'strict') {
