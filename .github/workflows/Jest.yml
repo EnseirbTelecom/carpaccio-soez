@@ -16,7 +16,7 @@ name: Jest Unit test
 #############################
 on:
   pull_request:
-    branches: [TestBranch]
+    branches: [master]
 
 ###############
 # Set the Job #
