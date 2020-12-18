@@ -1,14 +1,25 @@
-// function that throws a TypeError, with the message '{nameOfTheCallingFunction} : invalid argument'
-const throwInvalidArgumentError = () => { throw new TypeError('invalid argument') }
+import { throwInvalidArgumentError } from '../common/utils'
+import country from '../country/country.module'
+import discount from '../discount/discount.module'
 
 class BillServiceClass {
   async totalPrice (bill) {
     let sum = 0
-    this.assertHaveSameLength(bill.quantities)
+    this.assertHaveSameLength(bill.quantities, bill.prices)
     for (const k in bill.prices) {
       sum += await this.articleRawPrice(bill.quantities[k], bill.prices[k])
     }
-    return sum
+    const postTaxPrice = await country.service.applyTaxes(sum, bill.country)
+    const postDiscountPrice = this.applyDiscount(postTaxPrice, bill.discount)
+    return postDiscountPrice
+  }
+
+  applyDiscount (price, discountName) {
+    if (discountName === undefined) {
+      return price
+    } else {
+      return discount.service.applyDiscountByName(discountName, price)
+    }
   }
 
   assertHaveSameLength (array1, array2) {

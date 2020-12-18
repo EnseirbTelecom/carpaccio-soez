@@ -178,6 +178,21 @@ export function isInt (value, name = 'value') {
 }
 
 /**
+ * function that builds a validator that will check that 'value' is in 'array'
+ * @param {function} array list of possible value for 'value'
+ * @returns {function} a validator function @see validatorExample
+ */
+export function isIn (array) {
+  return (value, name) => {
+    if (array.includes(value)) {
+      return { valid: true }
+    } else {
+      return { valid: false, message: `${name} must be in ${array}` }
+    }
+  }
+}
+
+/**
  * function that builds a validator that will perfom sequentialy the validators/transformers
  * contained in 'validators'. If one of this validations fails, the returned validator
  * stop and return the result of the failing validation
@@ -187,15 +202,17 @@ export function isInt (value, name = 'value') {
 export function chainValidator (validators) {
   return (value, name = 'value') => {
     let result
+    let newValue = value
     for (const validator of validators) {
-      result = validator(value, name)
+      result = validator(newValue, name)
       if (!result.valid) {
         return result
       };
-      if (!(result.value === undefined)) {
-        value = result.value
+      if (result.value !== undefined) {
+        newValue = result.value
       }
     }
+    return { valid: true, value: newValue }
   }
 }
 
@@ -212,14 +229,14 @@ export function chainValidator (validators) {
  * @returns {function} the validator/transformer function @see validatorExample
  */
 export function validateDTO (DTO) {
-  return (value, name = 'value') => validateDTOaux(DTO, value, name + '.')
+  return (value, name = '') => validateDTOaux(DTO, value, name)
 }
 
 function validateDTOaux (DTO, data, name = '') {
   let value
   let result
   const newData = {}
-  const prefixTofield = name + '.'
+  const prefixTofield = name ? name + '.' : name
   for (const field in DTO) {
     if (data[field] === undefined) {
       if (DTO[field].optional) {
@@ -236,7 +253,7 @@ function validateDTOaux (DTO, data, name = '') {
     if (!result.valid) {
       return result
     };
-    newData[field] = value
+    newData[field] = result.value
   }
   return { valid: true, value: newData }
 }

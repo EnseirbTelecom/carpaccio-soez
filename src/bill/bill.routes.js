@@ -8,7 +8,7 @@ export function implement (app) {
     if (data.quantities.length !== data.prices.length) {
       return res.status(400).json({ error: 'Quantities and prices should have the same length' })
     }
-    const total = BillService.totalPrice(data)
+    const total = await BillService.totalPrice(data)
     return res.status(200).json({ total })
   })
 }
