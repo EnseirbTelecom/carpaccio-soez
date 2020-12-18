@@ -1,26 +1,40 @@
-import { minimum, toNumber, isInt, jsonParse, forEach, minLength, isArray}  from '../../common/validation'
+import { minimum, toNumber, isInt, jsonParse, forEach, minLength, isArray, isIn } from '../../common/validation'
+import country from '../../country/country.module'
+import discount from '../../discount/discount.module'
 
+export const ProductDTO = {
 
-export let ProductDTO = {
-
-  prices : { 
-    validators : [
-      jsonParse,
-      isArray,
-      minLength(1), 
-      forEach(toNumber), 
-      forEach(minimum(0))
-    ]
-  },
-
-  quantities : {
-    validators : [
+  prices: {
+    validators: [
       jsonParse,
       isArray,
       minLength(1),
       forEach(toNumber),
-      forEach(minimum(0,'strict')),
+      forEach(minimum(0))
+    ]
+  },
+
+  quantities: {
+    validators: [
+      jsonParse,
+      isArray,
+      minLength(1),
+      forEach(toNumber),
+      forEach(minimum(0, 'strict')),
       forEach(isInt)
     ]
+  },
+
+  country: {
+    validators: [
+      isIn(country.service.countryCodes)
+    ]
+  },
+
+  discount: {
+    validators: [
+      isIn(discount.service.discountNames)
+    ],
+    optional: true
   }
 }
