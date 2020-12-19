@@ -11,7 +11,8 @@ class BillServiceClass {
     }
     const postTaxPrice = await country.service.applyTaxes(sum, bill.country)
     const postDiscountPrice = this.applyDiscount(postTaxPrice, bill.discount)
-    return postDiscountPrice
+    const inCurrencyPrice = await this.convertCurrency(postDiscountPrice, bill.currency)
+    return inCurrencyPrice
   }
 
   applyDiscount (price, discountName) {
@@ -19,6 +20,14 @@ class BillServiceClass {
       return price
     } else {
       return discount.service.applyDiscountByName(discountName, price)
+    }
+  }
+
+  async convertCurrency (price, currencyCode) {
+    if (currencyCode === undefined) {
+      return price
+    } else {
+      return await country.service.convertToCurrency(price, currencyCode)
     }
   }
 

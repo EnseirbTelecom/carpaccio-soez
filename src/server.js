@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import BillModule from './bill/bill.module'
 import DefaultModule from './default/default.module'
 import { invalidRequestErrorHandler } from './common/validation'
+import { fetchErrorHandler, serverErrorHandler } from './common/utils'
 
 const modules = [BillModule, DefaultModule]
 
@@ -29,5 +30,7 @@ for (module of modules) {
 }
 
 app.use(invalidRequestErrorHandler)
+app.use(fetchErrorHandler)
+app.use(serverErrorHandler)
 
 app.listen(3000, () => console.log('Awaiting requests.'))

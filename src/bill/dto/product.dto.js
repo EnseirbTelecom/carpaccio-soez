@@ -36,5 +36,12 @@ export const ProductDTO = {
       isIn(discount.service.discountNames)
     ],
     optional: true
+  },
+
+  currency: {
+    validators: [
+      isIn(country.service.currencyCodeList)
+    ],
+    optional: true
   }
 }
