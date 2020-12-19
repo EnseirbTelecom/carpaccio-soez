@@ -36,8 +36,7 @@ class ChangeRateHandler {
     const data = await response.json()
     const date = new Date(data.date)
     // Change Rates are updated at CET 16h00 = UTC 15h00
-    // we add one minute for margin
-    date.setUTCHours(15, 1)
+    date.setUTCHours(15)
     this.currentChangeRateDate = date
     this.changeRates = data.rates
   }
