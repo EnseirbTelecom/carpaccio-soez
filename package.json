@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "postinstall": "cp -r ./hooks/ ./.git/",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "jest",
     "start": "nodemon  -r esm src/server.js"
   },
   "author": "yuno",
