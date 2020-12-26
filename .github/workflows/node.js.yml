@@ -1,10 +1,5 @@
 ---
-###########################
-###########################
-## Linter GitHub Actions ##
-###########################
-###########################
-name: Lint Code Base
+name: Lint and Jest Unit tests
 
 #
 # Documentation:
@@ -24,32 +19,12 @@ on:
 jobs:
   build:
     # Name the Job
-    name: Jest unit test
+    name: Lint and Jest unit test
     # Set the agent to run on
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - run: npm install
-    - run: npm run build --if-present
-    - run: npm run test
-      env:
-        CI: true
-  lint:
-    # Name the Job
-    name: Lint Code Base
-    # Set the agent to run on
-    runs-on: ubuntu-latest
-
-    ##################
-    # Load all steps #
-    ##################
-    steps:
-      ##########################
+          ##########################
       # Checkout the code base #
       ##########################
       - name: Checkout Code
@@ -67,3 +42,12 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npm run build --if-present
+      - run: npm run test
+        env:
+          CI: true
